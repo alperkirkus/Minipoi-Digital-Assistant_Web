@@ -21,7 +21,7 @@ function CodeGen() {
   useEffect(() => {
     setloading(true);
     axios
-      .get("https://minipoi-back.herokuapp.com/api/book/all")
+      .get("https://mini-back-12.herokuapp.com/api/book/all")
       .then(({ data }) => {
         if (data.books.length > 0) {
           setBooks(data.books);
