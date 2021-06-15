@@ -15,6 +15,8 @@ function Navs({setRoute,setUser}) {
           <Navbar.Collapse id="basic-navbar-nav">
             <Nav className="me-auto">
               <Nav.Link onClick ={()=>setRoute("home")}>Home</Nav.Link>
+              <Nav.Link onClick ={()=>setRoute("add-book")}>Add Book</Nav.Link>
+              <Nav.Link onClick ={()=>setRoute("add-ex")}>Add Exercise</Nav.Link>
               <Nav.Link onClick ={()=>setRoute("code-gen")}>Code Generator</Nav.Link>
               <Nav.Link onClick ={logOut}>Çıkış</Nav.Link>
             </Nav>
