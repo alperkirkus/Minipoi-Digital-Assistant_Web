@@ -1,11 +1,13 @@
 import React, { useState, useEffect } from "react";
 import axios from "axios";
-import { Row, Col, Form, Table, Button, Spinner, Alert } from "react-bootstrap";
+import { Row, Col, Form, Table, Button, Spinner,Alert } from "react-bootstrap";
 import Swal from "sweetalert2";
 import { Formik } from "formik";
 import UploadFile from "./UploadFile";
 
-const fileRootUrl = "https://minipoi-back.herokuapp.com/";
+
+
+const fileRootUrl = "https://mini-back-12.herokuapp.com/"
 const attainment = [
   {
     name: "PARÇA BÜTÜN İLİŞKİSİ",
@@ -37,9 +39,10 @@ function AddExercises() {
   const [books, setBooks] = useState([]);
   const [selectedBook, setSelectedBook] = useState(null);
 
-  const [files, setFiles] = useState([]);
+  const [files,setFiles] = useState([])
 
-  const [exercises, setExercises] = useState([]);
+  const [exercises,setExercises] = useState([])
+
 
   //get all books
   useEffect(() => {
@@ -49,7 +52,7 @@ function AddExercises() {
   const getBooks = () => {
     setloading(true);
     axios
-      .get("https://minipoi-back.herokuapp.com/api/book/all")
+      .get("https://mini-back-12.herokuapp.com/api/book/all")
       .then(({ data }) => {
         if (data.books.length > 0) {
           setBooks(data.books);
@@ -66,53 +69,52 @@ function AddExercises() {
       });
   };
 
+
   useEffect(() => {
-    if (selectedBook) {
-      getExercise();
+    if(selectedBook){
+      getExercise()
     }
-  }, [selectedBook]);
+  }, [selectedBook])
 
-  const getExercise = () => {
+  const getExercise = () =>{
     setloading(true);
-    axios
-      .get("https://minipoi-back.herokuapp.com/api/book-ex/" + selectedBook.id)
-      .then(({ data }) => {
-        setExercises(data.bookex);
-        setloading(false);
-      })
-      .catch((e) => {
-        Swal.fire({
-          icon: "error",
-          title: "Oops...",
-          text: "Something went wrong",
-        });
-        setloading(false);
-      });
-  };
+    axios.get("https://mini-back-12.herokuapp.com/api/book-ex/" + selectedBook.id).then(({data})=>{
 
-  const removeExercise = (id) => {
+      setExercises(data.bookex)
+      setloading(false)
+    }).catch((e)=>{
+      Swal.fire({
+        icon: "error",
+        title: "Oops...",
+        text: "Something went wrong",
+      });
+      setloading(false);
+    })
+  }
+
+
+  const removeExercise = (id) =>{
+
     setloading(true);
-    axios
-      .delete("https://minipoi-back.herokuapp.com/api/book-ex/" + id)
-      .then(({}) => {
-        setloading(false);
+    axios.delete("https://mini-back-12.herokuapp.com/api/book-ex/" + id).then(({})=>{
 
-        Swal.fire({
-          icon: "success",
-          title: "Sucess",
-          text: "Exercise has been removed successfuly",
-        });
-        getExercise(); // update and get last
-      })
-      .catch((e) => {
-        Swal.fire({
-          icon: "error",
-          title: "Oops...",
-          text: "Something went wrong",
-        });
-        setloading(false);
+    setloading(false)
+    
+    Swal.fire({
+      icon: "success",
+      title: "Sucess",
+      text: "Exercise has been removed successfuly",
+    });
+    getExercise()  // update and get last 
+    }).catch((e)=>{
+      Swal.fire({
+        icon: "error",
+        title: "Oops...",
+        text: "Something went wrong",
       });
-  };
+      setloading(false);
+    })
+  }
   return (
     <Row>
       <Col xs={12} md={6}>
@@ -128,56 +130,59 @@ function AddExercises() {
             const errors = {};
             if (!values.name) {
               errors.name = "Required";
-            }
+            } 
             return errors;
           }}
-          onSubmit={(values, { setSubmitting, resetForm }) => {
-            if (files.length > 0) {
-              // image existing
-              values.exerciseAttainmentName =
-                attainment[parseInt(values.exerciseAttainmentName)].name;
-              let data = {
+          onSubmit={(values, { setSubmitting,resetForm }) => {
+            
+
+            if(files.length > 0)  // image existing
+            {
+
+              values.exerciseAttainmentName = attainment[parseInt(values.exerciseAttainmentName)].name
+              let data  = {
                 ...values,
-                bookId: selectedBook.id,
-              };
+                bookId : selectedBook.id
+              }
 
               const formData = new FormData();
               formData.append("file", files[files.length - 1]);
-              formData.append("data", JSON.stringify(data));
+              formData.append("data",JSON.stringify(data))
 
-              axios
-                .post(
-                  "https://minipoi-back.herokuapp.com/api/book-ex/add-exercise",
-                  formData
-                )
-                .then(() => {
-                  Swal.fire({
-                    icon: "success",
-                    title: "Sucess",
-                    text: "Exercise has been added successfuly",
-                  });
-                  setFiles([]);
-                  getExercise();
-                  resetForm();
-                  setSubmitting(false);
-                })
-                .catch(() => {
-                  Swal.fire({
-                    icon: "error",
-                    title: "Oops...",
-                    text: "Something went wrong",
-                  });
-                  setSubmitting(false);
+              axios.post("https://mini-back-12.herokuapp.com/api/book-ex/add-exercise",formData).then(()=>{
+
+                Swal.fire({
+                  icon: "success",
+                  title: "Sucess",
+                  text: "Exercise has been added successfuly",
                 });
-            } else {
+                setFiles([])
+                getExercise()
+                resetForm()
+                setSubmitting(false)
+
+              }).catch(()=>{
+                Swal.fire({
+                  icon: "error",
+                  title: "Oops...",
+                  text: "Something went wrong",
+                });
+                setSubmitting(false)
+              })
+
+             
+            }
+            else{
               Swal.fire({
                 icon: "error",
                 title: "Oops...",
                 text: "Please add exercise image !!",
               });
 
-              setSubmitting(false);
+              setSubmitting(false)
             }
+           
+         
           }}
         >
           {({
@@ -207,6 +212,7 @@ function AddExercises() {
                   </Alert>
                 )}
               </Form.Group>
+              
 
               <Form.Group className="mb-3">
                 <Form.Label>Exercise Attainment Name</Form.Label>
@@ -262,20 +268,19 @@ function AddExercises() {
 
               <Form.Group className="mb-3">
                 <Form.Label>Exercise Image</Form.Label>
-                <UploadFile files={files} setFiles={setFiles} />
+                <UploadFile files = {files} setFiles = {setFiles}/>
               </Form.Group>
 
-              <Button
-                disabled={!selectedBook || isSubmitting}
-                variant="primary"
-                type="submit"
-              >
+           
+
+              <Button disabled={!selectedBook || isSubmitting} variant="primary" type="submit">
                 Add Exercise
               </Button>
             </Form>
           )}
         </Formik>
       </Col>
+    
 
       <Col xs={12} md={6}>
         {loading ? (
@@ -315,7 +320,7 @@ function AddExercises() {
         {loading ? (
           <Spinner animation="border" variant="info" />
         ) : (
-          <Table className="mt-3" responsive striped bordered hover>
+          <Table className = "mt-3" responsive striped bordered hover>
             <thead>
               <tr>
                 <th>#</th>
@@ -325,6 +330,8 @@ function AddExercises() {
                 <th>Attainment Name</th>
                 <th>Attainment Description</th>
                 <th>Actions</th>
+
+               
               </tr>
             </thead>
             <tbody>
@@ -333,20 +340,15 @@ function AddExercises() {
                   <tr key={i}>
                     <td>{item.id}</td>
                     <td>{item.name}</td>
-                    <td>
-                      <img
-                        className="exercise-img"
-                        src={fileRootUrl + item.exerciseImg}
-                      />
-                    </td>
+                    <td><img className= "exercise-img" src = {fileRootUrl + item.exerciseImg}/></td>
                     <td>{item.contScore}</td>
                     <td>{item.exerciseAttainmentName}</td>
                     <td>{item.exerciseAttainmentDes}</td>
                     <td>
                       <Button
                         variant="danger"
-                        onClick={() => {
-                          removeExercise(item.id);
+                        onClick = {()=>{
+                          removeExercise(item.id)
                         }}
                       >
                         Delete
@@ -359,6 +361,7 @@ function AddExercises() {
           </Table>
         )}
       </Col>
+
     </Row>
   );
 }
