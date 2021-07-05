@@ -323,7 +323,7 @@ function AddExercises() {
           <Table className = "mt-3" responsive striped bordered hover>
             <thead>
               <tr>
-                <th>#</th>
+                <th>Order</th>
                 <th>Name</th>
                 <th>Image</th>
                 <th>Contribution Score</th>
@@ -338,7 +338,7 @@ function AddExercises() {
               {exercises.map((item, i) => {
                 return (
                   <tr key={i}>
-                    <td>{item.id}</td>
+                    <td>{i +1}</td>
                     <td>{item.name}</td>
                     <td><img className= "exercise-img" src = {fileRootUrl + item.exerciseImg}/></td>
                     <td>{item.contScore}</td>
