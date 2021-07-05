@@ -21,7 +21,7 @@ function CodeGen() {
   useEffect(() => {
     setloading(true);
     axios
-      .get("https://mini-back-12.herokuapp.com/api/book/all")
+      .get("https://minipoi-back.herokuapp.com/api/book/all")
       .then(({ data }) => {
         if (data.books.length > 0) {
           setBooks(data.books);
@@ -55,7 +55,7 @@ function CodeGen() {
   const sendCodes = () => {
     setloading(true);
     axios
-      .post("https://mini-back-12.herokuapp.com/api/code/add", {
+      .post("https://minipoi-back.herokuapp.com/api/code/add", {
         codes,
         bookId,
       })
@@ -66,7 +66,7 @@ function CodeGen() {
           text: "Your codes has beenn added succesfuly",
         });
         setloading(false);
-        setCodes([])
+        setCodes([]);
       })
       .catch(() => {
         Swal.fire({

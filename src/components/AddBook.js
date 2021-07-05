@@ -21,7 +21,7 @@ function AddBook() {
   const getBooks = () => {
     setloading(true);
     axios
-      .get("https://mini-back-12.herokuapp.com/api/book/all")
+      .get("https://minipoi-back.herokuapp.com/api/book/all")
       .then(({ data }) => {
         if (data.books.length > 0) {
           setBooks(data.books);
@@ -43,7 +43,7 @@ function AddBook() {
 
     setloading(true);
     axios
-      .post("https://mini-back-12.herokuapp.com/api/book/add", { bookName })
+      .post("https://minipoi-back.herokuapp.com/api/book/add", { bookName })
       .then(() => {
         Swal.fire({
           icon: "success",
@@ -76,7 +76,7 @@ function AddBook() {
   const updateBookProcess = () => {
     setloading(true);
     axios
-      .put("https://mini-back-12.herokuapp.com/api/book/update", {
+      .put("https://minipoi-back.herokuapp.com/api/book/update", {
         bookName: updateBookName,
         id: selectedBook.id,
       })
