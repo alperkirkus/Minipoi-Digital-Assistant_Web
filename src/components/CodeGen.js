@@ -63,7 +63,7 @@ function CodeGen() {
         Swal.fire({
           icon: "success",
           title: "Success",
-          text: "Your codes has beenn added succesfuly",
+          text: "Your codes has been added succesfuly",
         });
         setloading(false);
         setCodes([]);
